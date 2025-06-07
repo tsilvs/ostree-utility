@@ -10,7 +10,7 @@ RUN mkdir -p /etc/mkinitcpio.conf.d \
  && echo "HOOKS=(base systemd ostree autodetect modconf kms keyboard sd-vconsole block filesystems fsck)" > /etc/mkinitcpio.conf.d/ostree.conf
 
 # Install kernel, firmware, microcode, filesystem tools, bootloader & ostree and run hooks once:
-RUN pacman --noconfirm --Sy \
+RUN pacman --noconfirm -Sy \
     linux \
     linux-headers \
     \
