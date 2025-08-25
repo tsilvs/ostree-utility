@@ -7,6 +7,20 @@
 
 # OSTree Utility
 
+Helper script which aids in curating your own Arch on OSTree via Podman setup.
+
+> [!WARNING]
+> Use this code at your own risk, it was not well-tested!
+>
+> I am a solo developer with little resources so I can't guarantee smooth operation.
+>
+> I am writing these scripts to be stable to the best of my abilities and knowledge.
+>
+> Contributions are most welcome.
+
+> [!CAUTION]
+> Be careful with elevated privileges execution and important system files editing!
+
 ## Goals
 
 + [ ] Make a script to generate an image that can be pulled by any active OSTree system as a deployment.
