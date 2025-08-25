@@ -6,6 +6,7 @@ set -o nounset # Error on unset variables
 # (?<!")[$][{]OSTREE_(SYS|DEV|OPT|REP)_(BOOT|ROOT|TREE|HOME|DISK|NAME|KARG)(_LABEL)?[}](?!")
 
 # [ENVIRONMENT]: OVERRIDE DEFAULTS
+# TODO: Implement proper function parameter handling
 function ENV_CREATE_OPTS {
 	if [[ ${CLI_QUIET:-} != 1 ]]; then
 		set -o xtrace # Print executed commands while performing tasks
@@ -43,6 +44,7 @@ function ENV_CREATE_OPTS {
 }
 
 # [ENVIRONMENT]: OSTREE CHECK
+# TODO: Implement proper function parameter handling
 function ENV_VERIFY_LOCAL {
 	if [[ ! -d '/ostree' ]]; then
 		printf >&2 '\e[31m%s\e[0m\n' 'OSTree could not be found in: /ostree'
@@ -51,6 +53,7 @@ function ENV_VERIFY_LOCAL {
 }
 
 # [ENVIRONMENT]: BUILD DEPENDENCIES
+# TODO: Implement proper function parameter handling
 function ENV_CREATE_DEPS {
 	# Skip in OSTree as filesystem is read-only
 	if ! ENV_VERIFY_LOCAL 2>/dev/null; then
@@ -59,6 +62,7 @@ function ENV_CREATE_DEPS {
 }
 
 # [DISK]: PARTITIONING (GPT+UEFI)
+# TODO: Implement proper function parameter handling
 function DISK_CREATE_LAYOUT {
 	ENV_CREATE_DEPS parted
 	mkdir -p "${OSTREE_SYS_ROOT}"
@@ -72,6 +76,7 @@ function DISK_CREATE_LAYOUT {
 }
 
 # [DISK]: FILESYSTEM (ESP+XFS)
+# TODO: Implement proper function parameter handling
 function DISK_CREATE_FORMAT {
 	ENV_CREATE_DEPS dosfstools xfsprogs
 	mkfs.vfat -n "${OSTREE_SYS_BOOT_LABEL}" -F 32 "${OSTREE_DEV_BOOT}"
@@ -80,12 +85,14 @@ function DISK_CREATE_FORMAT {
 }
 
 # [DISK]: BUILD DIRECTORY
+# TODO: Implement proper function parameter handling
 function DISK_CREATE_MOUNTS {
 	mount --mkdir "${OSTREE_DEV_ROOT}" "${OSTREE_SYS_ROOT}"
 	mount --mkdir "${OSTREE_DEV_BOOT}" "${OSTREE_SYS_ROOT}"/boot/efi
 }
 
 # [OSTREE]: FIRST INITIALIZATION
+# TODO: Implement proper function parameter handling
 function OSTREE_CREATE_REPO {
 	ENV_CREATE_DEPS ostree which
 	ostree admin init-fs --sysroot="${OSTREE_SYS_ROOT}" --modern "${OSTREE_SYS_ROOT}"
@@ -95,6 +102,7 @@ function OSTREE_CREATE_REPO {
 }
 
 # [OSTREE]: BUILD ROOTFS
+# TODO: Implement proper function parameter handling
 function OSTREE_CREATE_ROOTFS {
 	# Add support for overlay storage driver in LiveCD
 	if [[ $(df --output=fstype / | tail --lines 1) = 'overlay' ]]; then
@@ -149,6 +157,7 @@ function OSTREE_CREATE_ROOTFS {
 }
 
 # [OSTREE]: DIRECTORY STRUCTURE (https://ostree.readthedocs.io/en/stable/manual/adapting-existing)
+# TODO: Implement proper function parameter handling
 function OSTREE_CREATE_LAYOUT {
 	# Doing it here allows the container to be runnable/debuggable and Containerfile reusable
 	mv "${OSTREE_SYS_TREE}"/etc "${OSTREE_SYS_TREE}"/usr/
@@ -209,6 +218,7 @@ function OSTREE_CREATE_LAYOUT {
 }
 
 # [OSTREE]: CREATE COMMIT
+# TODO: Implement proper function parameter handling
 function OSTREE_DEPLOY_IMAGE {
 	# Update repository and boot entries in GRUB2
 	ostree commit --repo="${OSTREE_SYS_ROOT}/ostree/repo" --branch="${OSTREE_REP_NAME}/latest" --tree=dir="${OSTREE_SYS_TREE}"
@@ -216,12 +226,14 @@ function OSTREE_DEPLOY_IMAGE {
 }
 
 # [OSTREE]: UNDO COMMIT
+# TODO: Implement proper function parameter handling
 function OSTREE_REVERT_IMAGE {
 	ostree admin undeploy --sysroot="${OSTREE_SYS_ROOT}" 0
 }
 
 # [BOOTLOADER]: FIRST BOOT
 # | Todo: improve grub-mkconfig
+# TODO: Implement proper function parameter handling
 function BOOTLOADER_CREATE {
 	grub-install --target='x86_64-efi' --efi-directory="${OSTREE_SYS_ROOT}/boot/efi" --boot-directory="${OSTREE_SYS_ROOT}/boot/efi/EFI" --bootloader-id="${OSTREE_REP_NAME}" --removable "${OSTREE_DEV_BOOT}"
 
@@ -239,6 +251,7 @@ function BOOTLOADER_CREATE {
 }
 
 # [CLI]: TASK FINECONTROL
+# TODO: Implement proper function parameter handling
 function CLI_SETUP {
 	CLI_ARGS=$(getopt \
 		--alternative \

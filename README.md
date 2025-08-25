@@ -24,6 +24,7 @@ Helper script which aids in curating your own Arch on OSTree via Podman setup.
 ## Goals
 
 + [ ] Make a script to generate an image that can be pulled by any active OSTree system as a deployment.
++ [ ] Maybe rewrite in TypeScript?
 
 # Notes
 
