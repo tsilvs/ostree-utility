@@ -25,13 +25,26 @@ Helper script which aids in curating your own Arch on OSTree via Podman setup.
 
 + [ ] Make a script to generate an image that can be pulled by any active OSTree system as a deployment.
 + [ ] Maybe rewrite in TypeScript?
++ [ ] Support parallel repos / branches for different OSes?
++ [ ] Integrate BTRFS Snapshots?
+
+> <details>
+> <summary>Hierarchy of solutions</summary>
+> BTRFS is assigned as a file system through drive partition formatting.
+>
+> It resides on a drive partition and can have subvolumes.
+>
+> System files are then written on the subvolumes.
+>
+> OSTree repo is written on a partition as well. One of the BTRFS subvolumes, usually the same as system root.
+> </details>
 
 # Notes
 
 > [!NOTE]
 > originally written by GrabbenD
 > <details>
-> 	<summary>Original `README`</summary>
+> <summary>Original `README`</summary>
 > 
 > ## OSTree in Arch Linux using Podman
 > 
